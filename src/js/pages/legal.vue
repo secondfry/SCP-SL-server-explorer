@@ -22,6 +22,9 @@ export default {
     <h1>Why is it important? The game is free!</h1>
     <p>SCP: Containment Breach was released under CC BY-SA 3.0.<br>Creator of the game let others to take his work and build upon it. This is how we are still getting updates on it.</p>
     <p>SCP: Secret Laboratory was released under private EULA.<br>You are prohibited from modifying source code and it is unclear if you are allowed to unpack resource files for models and sound clips or not since one may find 'source code' or 'the Software' in EULA covering models and sound clips too. On other hand, if we judge that you may extract models, then one may replace walls with transparency – basically making a wallhack.</p>
+    <h1>Dance around Adaptation and Collection</h1>
+    <p>How would one judge if something is adaptation of the work or part of the collection of separate works? It is a vague topic really.</p>
+    <p>What we can agree upon is that, from eyes of random observer, SCP behaviour and image in the game is unseparatable from concept of SCP. That would make actor scripts part of derivate work which would then fall into CC BY-SA 3.0 domain.</p>
     <h1>What now?</h1>
     <p>I've reported those violations to SCP Foundation <a href="http://05command.wikidot.com/license-experts-main">Licensing Team</a>. Apparently they were already aware of this situation.</p>
     <p>Hopefully it will change. For now, all we can do is spread the word around the issue.</p>
