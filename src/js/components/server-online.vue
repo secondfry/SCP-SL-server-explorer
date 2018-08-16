@@ -49,12 +49,12 @@ export default {
 
       return this.server.ipport;
     },
-    online () {
+    serverOnline () {
       return this.getServerOnline(this.server);
-    }
+    },
   },
   watch: {
-    online (newData, oldData) {
+    serverOnline (newData, oldData) {
       this.chartOptions.series[0].data = newData;
       this.chart.setOption(this.chartOptions);
     },
@@ -72,7 +72,7 @@ export default {
   },
   mounted () {
     this.chart = echarts.init(this.$refs['chart']);
-    this.chartOptions = Object.assign({}, echartsOptions);
+    this.chartOptions = JSON.parse(JSON.stringify(echartsOptions));
     this.chartOptions.series[0].name = this.serverName;
     this.chart.setOption(this.chartOptions);
   }

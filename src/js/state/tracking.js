@@ -15,8 +15,8 @@ export default {
   },
   mutations: {
     [events.TRACK] (state, server) {
-      server['online'] = [];
       this._vm.$set(state.servers, server.ipport, server);
+      this._vm.$set(state.servers[server.ipport], 'online', []);
       this._vm.$setItem('tracking', state.servers);
     },
     [events.UNTRACK] (state, server) {
@@ -25,9 +25,8 @@ export default {
     },
     [events.TRACK_ALL] (state, servers) {
       for (let ipport in servers) {
-        const server = servers[ipport];
-        server.online = [];
-        this._vm.$set(state.servers, ipport, server);
+        this._vm.$set(state.servers, ipport, servers[ipport]);
+        this._vm.$set(state.servers[ipport], 'online', []);
       }
       this._vm.$setItem('tracking', state.servers);
     },
@@ -35,7 +34,9 @@ export default {
       state.loaded = true;
     },
     [events.ONLINE_LOAD_SUCCESS] (state, { server, data }) {
-      this._vm.$set(state.servers[server.ipport], 'online', data);
+      for (let line of data) {
+        state.servers[server.ipport].online.push(line);
+      }
     },
   },
   getters: {
@@ -56,10 +57,6 @@ export default {
       return true;
     },
     getServerOnline: (state, getters) => server => {
-      if (!getters.isServerLoaded(server)) {
-        return [];
-      }
-
       return state.servers[server.ipport].online;
     },
     getTrackedCount: state => Object.keys(state.servers).length,
