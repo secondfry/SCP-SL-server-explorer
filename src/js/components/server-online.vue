@@ -2,7 +2,7 @@
 import { mapActions, mapGetters, mapState } from 'vuex'
 
 const endTime = new Date();
-const startTime = new Date(endTime - 60 * 5 * 1000);
+const startTime = new Date(endTime - 60 * 10 * 1000);
 
 const echartsOptions = {
   tooltip: {
@@ -28,8 +28,8 @@ const echartsOptions = {
     type: 'slider',
     xAxisIndex: [0],
     filterMode: 'filter',
-    minValueSpan: 60 * 5 * 1000,
-    maxValueSpan: 60 * 60 * 1000,
+    minValueSpan: 60 * 10 * 1000,
+    maxValueSpan: 60 * 30 * 1000,
     startValue: startTime,
     endValue: endTime,
   }],
