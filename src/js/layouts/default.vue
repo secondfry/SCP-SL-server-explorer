@@ -60,7 +60,7 @@
         </div>
       </div>
     </div>
-    <div class="p-3 my-3 text-center bg-warning">SCP: Secret Laboratory seemingly breaks license of SCP Foundation (CC BY-SA 3.0). <a href="/legal" data-name="legal" @click="navigate">What?</a></div>
+    <div class="p-3 my-3 text-center borders-dark"><a href="/legal" data-name="legal" @click="navigate">Debatable topic</a> – SCP: Secret Laboratory EULA and license of SCP Foundation (CC BY-SA 3.0).</div>
     <footer class="sf-footer">
       <div class="container">
         <div class="row">
@@ -79,10 +79,14 @@
 </template>
 
 <style lang="scss">
-  .sf-footer {
-    margin-bottom: 80px;
-    @include media-breakpoint-up(md) {
-      margin-bottom: unset;
-    }
+.sf-footer {
+  margin-bottom: 80px;
+  @include media-breakpoint-up(md) {
+    margin-bottom: unset;
   }
+}
+.borders-dark {
+  border-top: 1px solid #343a40;
+  border-bottom: 1px solid #343a40;
+}
 </style>
