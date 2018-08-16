@@ -62,6 +62,7 @@ export default {
   methods: {
     ...mapActions([
       'loadServerOnline',
+      'untrackServer',
     ]),
   },
   created () {
@@ -80,12 +81,23 @@ export default {
 
 <template>
   <div>
-    <h2>{{ serverName }}</h2>
+    <div class="server-title">
+      <button @click="untrackServer(server)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+      <h2 class="server-name">{{ serverName }}</h2>
+    </div>
     <div ref="chart" class="chart"></div>
   </div>
 </template>
 
 <style lang="scss">
+.server-title {
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-column-gap: 1rem;
+}
+.server-name {
+  margin: 0;
+}
 .chart {
   width: auto;
   height: 15rem;

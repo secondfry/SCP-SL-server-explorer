@@ -26,10 +26,14 @@ export default {
     ...mapState({
       isListLoaded: state => state.list.loaded,
       servers: state => state.list.servers,
+      serversTracked: state => state.tracking.servers,
     }),
+    ...mapGetters([
+      'getTrackedCount',
+    ]),
     areServerAvailable () {
       return Object.values(this.servers).length !== 0;
-    }
+    },
   },
   watch: {
     needle (newData, oldData) {
@@ -46,6 +50,11 @@ export default {
     ]),
     track (server) {
       this.needle = '';
+
+      if (this.getTrackedCount > 4) {
+        return;
+      }
+
       this.trackServer(server);
     }
   },
@@ -59,7 +68,8 @@ export default {
 
 <template>
   <div>
-    <input v-model="needle" class="form-control" type="text" :disabled="!areServerAvailable" />
+    <input class="form-control" type="text" placeholder="Start typing server IP or name"
+           v-model="needle" :disabled="!areServerAvailable || getTrackedCount > 4" />
     <div class="form-control server-box" v-if="results.length">
       <div class="server-line" v-for="server in results">
         <a href="#" @click="track(server)">{{ server.ipport }}<span v-if="server.name"> – {{ server.name }}</span></a>

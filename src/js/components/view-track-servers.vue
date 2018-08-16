@@ -8,7 +8,10 @@ export default {
     ...mapState({
       isTrackingLoaded: state => state.tracking.loaded,
       servers: state => state.tracking.servers,
-    })
+    }),
+    ...mapGetters([
+      'getTrackedCount'
+    ]),
   },
   methods: {
     ...mapActions([
@@ -29,6 +32,7 @@ export default {
 <template>
   <div>
     <h1 class="mt-3">Servers</h1>
+    <p v-if="!getTrackedCount">None yet!</p>
     <ServerOnline :server="server" v-for="server in servers" :key="server.ipport" />
   </div>
 </template>

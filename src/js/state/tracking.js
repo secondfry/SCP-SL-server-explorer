@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const events = {
   TRACK: 'TRACKING_TRACK',
+  UNTRACK: 'TRACKING_UNTRACK',
   TRACK_ALL: 'TRACKING_TRACK_ALL',
   LOADED: 'TRACKING_LOADED',
   ONLINE_LOAD_SUCCESS: 'TRACKING_ONLINE_LOAD_SUCCESS',
@@ -16,6 +17,10 @@ export default {
     [events.TRACK] (state, server) {
       server['online'] = [];
       this._vm.$set(state.servers, server.ipport, server);
+      this._vm.$setItem('tracking', state.servers);
+    },
+    [events.UNTRACK] (state, server) {
+      this._vm.$delete(state.servers, server.ipport);
       this._vm.$setItem('tracking', state.servers);
     },
     [events.TRACK_ALL] (state, servers) {
@@ -56,7 +61,8 @@ export default {
       }
 
       return state.servers[server.ipport].online;
-    }
+    },
+    getTrackedCount: state => Object.keys(state.servers).length,
   },
   actions: {
     loadTrackedServers ({ commit }) {
@@ -72,6 +78,9 @@ export default {
     trackServer ({ commit }, server) {
       return commit(events.TRACK, server);
     },
+    untrackServer ({ commit }, server) {
+      return commit(events.UNTRACK, server);
+    },
     loadServerOnline ({ commit }, server) {
       return axios
         .get('/api/server/' + server._id.ip + '/' + server._id.port + '/')
@@ -81,6 +90,6 @@ export default {
           data
         }))
         .catch(console.log.bind(console))
-    }
+    },
   }
 }
