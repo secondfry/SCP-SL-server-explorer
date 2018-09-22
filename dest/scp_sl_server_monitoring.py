@@ -10,43 +10,44 @@ import gzip
 import json
 import logging
 import os
-import signal
+# import signal
 import time
 
 from pymongo import MongoClient
 
 
-# Setup logging
-logger = logging.getLogger('tcpdump')
-logger.setLevel(logging.DEBUG)
-log_handler_file = logging.FileHandler(filename='tcpdump_fail2ban.log', encoding='utf-8', mode='a')
-log_handler_file.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(log_handler_file)
-log_handler_console = logging.StreamHandler()
-logger.addHandler(log_handler_console)
+# # Setup logging
+# logger = logging.getLogger('tcpdump')
+# logger.setLevel(logging.DEBUG)
+# log_handler_file = logging.FileHandler(filename='tcpdump_fail2ban.log', encoding='utf-8', mode='a')
+# log_handler_file.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+# logger.addHandler(log_handler_file)
+# log_handler_console = logging.StreamHandler()
+# logger.addHandler(log_handler_console)
 
 # Globals
 DEBUG = True
 MONGO_CLIENT = MongoClient()
 MONGO_DB = MONGO_CLIENT.SCPSL
-MONGO_COLLECTION = MONGO_DB.servers
+MONGO_COLLECTION_SERVERS = MONGO_DB.servers
+MONGO_COLLECTION_DATA = MONGO_DB.data
 SERVER_MAP = {}
 
-# Nice exit from loop
-def ask_exit(signame):
-  global TCPDUMP_PROCESS
+# # Nice exit from loop
+# def ask_exit(signame):
+#   global TCPDUMP_PROCESS
 
-  print('got signal %s: exit' % signame)
+#   print('got signal %s: exit' % signame)
 
-  if TCPDUMP_PROCESS:
-    TCPDUMP_PROCESS.terminate()
+#   if TCPDUMP_PROCESS:
+#     TCPDUMP_PROCESS.terminate()
 
-  loop.stop()
+#   loop.stop()
 
 # Asyncio stuff
 loop = asyncio.get_event_loop()
-for signame in ('SIGINT', 'SIGTERM'):
-  loop.add_signal_handler(getattr(signal, signame), functools.partial(ask_exit, signame))
+# for signame in ('SIGINT', 'SIGTERM'):
+#   loop.add_signal_handler(getattr(signal, signame), functools.partial(ask_exit, signame))
 
 # fetcher task
 async def fetch_data_task():
@@ -81,8 +82,8 @@ async def fetch_data():
 
 async def process_data(timestamp, data):
   global SERVER_MAP
-  global MONGO_COLLECTION
-  servers = MONGO_COLLECTION
+  global MONGO_COLLECTION_SERVERS
+  servers = MONGO_COLLECTION_SERVERS
 
   print(' > Processing data')
 
@@ -104,7 +105,6 @@ async def process_data(timestamp, data):
         '_id': server_id,
         'info': pieces[2],
         'distance': pieces[4],
-        'players': [],
         'created_at': timestamp,
       })
     except:
@@ -119,27 +119,26 @@ async def process_data(timestamp, data):
     SERVER_MAP['{0}:{1}'.format(ip, port)] = players
 
 async def update_server(timestamp, ip, port, players):
-  global MONGO_COLLECTION
-  servers = MONGO_COLLECTION
+  global MONGO_COLLECTION_DATA
 
   server_id = {
     'ip': ip,
     'port': port,
   }
 
-  servers.update_one({
-    '_id': server_id,
-  }, {'$push': {
-    'players': {
+  try:
+    MONGO_COLLECTION_DATA.insert_one({
+      'id': server_id,
       'created_at': timestamp,
-      'amount': players,
-    }
-  }})
+      'players': players
+    })
+  except:
+    pass
 
 async def check_server_map(timestamp):
   global SERVER_MAP
-  global MONGO_COLLECTION
-  servers = MONGO_COLLECTION
+  global MONGO_COLLECTION_SERVERS
+  servers = MONGO_COLLECTION_SERVERS
 
   print(' > Checking server map')
 

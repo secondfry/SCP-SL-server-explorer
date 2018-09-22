@@ -27,6 +27,12 @@ class Server {
   }
 
   public static
+  function getDataCollection(): \MongoDB\Collection {
+    return MDB::get()
+      -> selectCollection('data');
+  }
+
+  public static
   function getAll() {
     return Server::getCollection()
       -> find([], [
@@ -46,28 +52,21 @@ class Server {
     // FIXME after more than 10 years, I still have no clue how PHP timezones work
     $timestamp -> add(new DateInterval('PT3H'));
 
-    // Showing only last 15 minutes of data
-    $timestamp -> sub(new DateInterval('PT1H'));
+    // Showing only last day of data
+    $timestamp -> sub(new DateInterval('P1D'));
 
     // FIXME if I previously wouldn't add 3 hours, this timestamp would be jinxed
     $mdb_timestamp = new MongoDB\BSON\UTCDateTime($timestamp);
 
     $ret = [];
-    $data = Server::getCollection()
+    $data = Server::getDataCollection()
       -> aggregate([
-        ['$unwind' => '$players'],
-        ['$project' => [
-          'players' => 1,
-        ]],
         ['$match' => [
-          '_id' => [
+          'id' => [
             'ip' => $this -> ip,
             'port' => $this -> port,
           ],
-          'players.created_at' => ['$gt' => $mdb_timestamp],
-        ]],
-        ['$replaceRoot' => [
-          'newRoot' => '$players',
+          'created_at' => ['$gt' => $mdb_timestamp],
         ]],
       ]);
 
@@ -76,7 +75,7 @@ class Server {
       $timestamp = $line['created_at'] -> toDateTime();
       $timestring = $timestamp -> format('Y-m-d\TH:i:s');
 
-      $ret[] = [$timestring, $line['amount']];
+      $ret[] = [$timestring, $line['players']];
     }
 
     return $ret;
