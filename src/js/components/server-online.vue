@@ -16,7 +16,6 @@ const echartsOptions = {
     type: 'value',
     name: 'Игроки',
     min: -1,
-    max: 30,
   },
   series: [{
     type: 'line',
