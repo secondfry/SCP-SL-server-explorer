@@ -68,11 +68,25 @@ export default {
 
 <template>
   <div>
-    <input class="form-control" type="text" placeholder="Start typing server IP or name"
-           v-model="needle" :disabled="!areServerAvailable || getTrackedCount > 4" />
-    <div class="form-control server-box" v-if="results.length">
-      <div class="server-line" v-for="server in results">
-        <a href="#" @click="track(server)">{{ server.ipport }}<span v-if="server.name"> – {{ server.name }}</span></a>
+    <input
+      v-model="needle"
+      class="form-control"
+      type="text"
+      placeholder="Start typing server IP or name"
+      :disabled="!areServerAvailable || getTrackedCount > 4"
+    >
+    <div
+      v-if="results.length"
+      class="form-control server-box"
+    >
+      <div
+        v-for="server in results"
+        class="server-line"
+      >
+        <a
+          href="#"
+          @click="track(server)"
+        >{{ server.ipport }}<span v-if="server.name"> – {{ server.name }}</span></a>
       </div>
     </div>
   </div>

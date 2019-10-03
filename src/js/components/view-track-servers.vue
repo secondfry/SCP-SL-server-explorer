@@ -31,8 +31,16 @@ export default {
 
 <template>
   <div>
-    <h1 class="mt-3">Servers</h1>
-    <p v-if="!getTrackedCount">None yet!</p>
-    <ServerOnline :server="server" v-for="server in servers" :key="server.ipport" />
+    <h1 class="mt-3">
+      Servers
+    </h1>
+    <p v-if="!getTrackedCount">
+      None yet!
+    </p>
+    <ServerOnline
+      v-for="server in servers"
+      :key="server.ipport"
+      :server="server"
+    />
   </div>
 </template>

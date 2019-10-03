@@ -81,10 +81,23 @@ export default {
 <template>
   <div>
     <div class="server-title">
-      <button @click="untrackServer(server)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
-      <h2 class="server-name">{{ serverName }}</h2>
+      <button
+        class="btn btn-sm btn-danger"
+        @click="untrackServer(server)"
+      >
+        <span
+          class="glyphicon glyphicon-trash"
+          aria-hidden="true"
+        />
+      </button>
+      <h2 class="server-name">
+        {{ serverName }}
+      </h2>
     </div>
-    <div ref="chart" class="chart"></div>
+    <div
+      ref="chart"
+      class="chart"
+    />
   </div>
 </template>
 
