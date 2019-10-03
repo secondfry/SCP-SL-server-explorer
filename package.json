@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack && cross-env NODE_ENV=development gulp",
     "prod": "cross-env NODE_ENV=production webpack && cross-env NODE_ENV=production gulp",
-    "watch": "concurrently --kill-others-on-fail -n webpack,gulp \"cross-env NODE_ENV=development webpack --watch\" \"cross-env NODE_ENV=production gulp watch\""
+    "watch": "concurrently --kill-others-on-fail -n webpack,gulp \"cross-env NODE_ENV=development webpack --watch\" \"cross-env NODE_ENV=production gulp watch\"",
+    "eslint": "eslint --ext .js,.vue src"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.6.2",
     "axios": "^0.19.0",
+    "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "bootstrap": "^4.3.1",
     "clean-webpack-plugin": "^3.0.0",
@@ -26,6 +28,8 @@
     "css-loader": "^3.2.0",
     "css-mqpacker": "^7.0.0",
     "cssnano": "^4.1.10",
+    "eslint": "^6.5.1",
+    "eslint-plugin-vue": "^5.2.3",
     "file-loader": "^4.2.0",
     "glob": "^7.1.4",
     "gulp": "^4.0.2",
