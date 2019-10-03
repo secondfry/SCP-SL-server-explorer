@@ -56,7 +56,7 @@ export default {
 
       return true;
     },
-    getServerOnline: (state, getters) => server => {
+    getServerOnline: (state) => server => {
       return state.servers[server.ipport].online;
     },
     getTrackedCount: state => Object.keys(state.servers).length,

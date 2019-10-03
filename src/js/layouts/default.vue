@@ -1,9 +1,13 @@
 <script>
-  import { mapActions, mapGetters, mapState } from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
 
   import Glyphicons from './power-threads-glyphicons.vue'
 
   export default {
+    components: {},
+    created () {
+      this.loadUserId();
+    },
     methods: {
       ...mapActions([
         'loadUserId',
@@ -27,14 +31,8 @@
       },
       track (e) {
         e.preventDefault();
-        
-      }
+      },
     },
-    components: {
-    },
-    created () {
-      this.loadUserId();
-    }
   }
 </script>
 

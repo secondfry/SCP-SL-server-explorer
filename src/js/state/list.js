@@ -1,5 +1,4 @@
 import axios from 'axios'
-import Vue from 'vue'
 
 const events = {
   LOAD_SUCCESS: 'LIST_LOAD_SUCCESS',

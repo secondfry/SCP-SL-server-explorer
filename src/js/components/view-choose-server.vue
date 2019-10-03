@@ -43,6 +43,11 @@ export default {
       this.fuse = new Fuse(Object.values(this.servers), fuseOptions);
     }
   },
+  created () {
+    if (!this.isListLoaded) {
+      this.loadServerList();
+    }
+  },
   methods: {
     ...mapActions([
       'loadServerList',
@@ -56,11 +61,6 @@ export default {
       }
 
       this.trackServer(server);
-    }
-  },
-  created () {
-    if (!this.isListLoaded) {
-      this.loadServerList();
     }
   },
 }
@@ -81,6 +81,7 @@ export default {
     >
       <div
         v-for="server in results"
+        :key="server.ipport"
         class="server-line"
       >
         <a

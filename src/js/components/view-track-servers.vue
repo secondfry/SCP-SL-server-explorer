@@ -4,6 +4,9 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 import ServerOnline from './server-online.vue'
 
 export default {
+  components: {
+    ServerOnline,
+  },
   computed: {
     ...mapState({
       isTrackingLoaded: state => state.tracking.loaded,
@@ -13,19 +16,16 @@ export default {
       'getTrackedCount'
     ]),
   },
-  methods: {
-    ...mapActions([
-      'loadTrackedServers',
-    ]),
-  },
   created () {
     if (!this.isTrackingLoaded) {
       this.loadTrackedServers();
     }
   },
-  components: {
-    ServerOnline,
-  }
+  methods: {
+    ...mapActions([
+      'loadTrackedServers',
+    ]),
+  },
 }
 </script>
 

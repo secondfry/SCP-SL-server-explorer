@@ -1,5 +1,5 @@
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 const endTime = new Date();
 const startTime = new Date(endTime - 60 * 10 * 1000);
@@ -58,12 +58,6 @@ export default {
       this.chart.setOption(this.chartOptions);
     },
   },
-  methods: {
-    ...mapActions([
-      'loadServerOnline',
-      'untrackServer',
-    ]),
-  },
   created () {
     if (!this.isServerLoaded(this.server)) {
       this.loadServerOnline(this.server)
@@ -74,7 +68,13 @@ export default {
     this.chartOptions = JSON.parse(JSON.stringify(echartsOptions));
     this.chartOptions.series[0].name = this.serverName;
     this.chart.setOption(this.chartOptions);
-  }
+  },
+  methods: {
+    ...mapActions([
+      'loadServerOnline',
+      'untrackServer',
+    ]),
+  },
 }
 </script>
 
